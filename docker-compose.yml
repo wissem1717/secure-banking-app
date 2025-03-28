@@ -1,0 +1,23 @@
+services:
+#  caddy:
+
+#  web:
+
+#  api:
+
+  db:
+    container_name: surreal
+    user: root
+    image: surrealdb/surrealdb:latest
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/data
+    command: start
+    environment:
+      - SURREAL_USER=${DB_USER}
+      - SURREAL_PASS=${DB_PASSWORD}
+      - SURREAL_LOG=trace
+      - SURREAL_TELEMETRY_DISABLE_METRICS=true
+      - SURREAL_TELEMETRY_DISABLE_TRACING=true
+      - SURREAL_PATH=rocksdb:/data
