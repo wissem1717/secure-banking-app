@@ -5,19 +5,20 @@ services:
 
 #  api:
 
-  db:
-    container_name: surreal
-    user: root
-    image: surrealdb/surrealdb:latest
+ db:
+    image: postgres
+    restart: always
     ports:
-      - "8000:8000"
-    volumes:
-      - ./data:/data
-    command: start
+      - 5432:5432
     environment:
-      - SURREAL_USER=${DB_USER}
-      - SURREAL_PASS=${DB_PASSWORD}
-      - SURREAL_LOG=trace
-      - SURREAL_TELEMETRY_DISABLE_METRICS=true
-      - SURREAL_TELEMETRY_DISABLE_TRACING=true
-      - SURREAL_PATH=rocksdb:/data
+      POSTGRES_DB: bank-app
+      POSTGRES_USER: ${DB_USER}
+      PGUSER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    healthcheck:
+      test: pg_isready -d $$POSTGRES_DB -U $$POSTGRES_USER
+      interval: 1s
+      timeout: 5s
+      retries: 10
