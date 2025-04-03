@@ -11,12 +11,13 @@ services:
     ports:
       - 5432:5432
     environment:
-      POSTGRES_DB: bank-app
+      POSTGRES_DB: bank_db
       POSTGRES_USER: ${DB_USER}
       PGUSER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     volumes:
       - ./data:/var/lib/postgresql/data
+      - ./dataset:/docker-entrypoint-initdb.d
     healthcheck:
       test: pg_isready -d $$POSTGRES_DB -U $$POSTGRES_USER
       interval: 1s

@@ -1,0 +1,26 @@
+CREATE TABLE IF NOT EXISTS employee (
+  id SERIAL PRIMARY KEY,
+  username VARCHAR(255),
+  password VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS client (
+  id SERIAL PRIMARY KEY,
+  first_name VARCHAR(255),
+);
+
+CREATE TABLE IF NOT EXISTS account (
+  id SERIAL PRIMARY KEY,
+  balance INT,
+);
+
+CREATE TABLE IF NOT EXISTS operation (
+  id SERIAL PRIMARY KEY,
+  value INT,
+);
+
+
+CREATE TABLE IF NOT EXISTS debit_card (
+  id SERIAL PRIMARY KEY,
+  account_id INT NOT NULL REFERENCES operation(id),
+);
