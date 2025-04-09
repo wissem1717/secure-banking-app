@@ -1,11 +1,12 @@
 import express from 'express'
+import { expressjwt } from "express-jwt";
 const app = express()
 const port = 3000
 
 app.use(
-  jwt({
+  expressjwt({
     secret: Buffer.from("REDACTED_ROTATE_THIS_SECRET", "base64"),
-    algorithms: ["RS256"],
+    algorithms: ["HS256"],
   }).unless({ path: ["/login"] })
 );
 
