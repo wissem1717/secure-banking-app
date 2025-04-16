@@ -1,19 +1,15 @@
 {
-  "name": "api",
+  "name": "web-projet",
   "version": "1.0.0",
-  "main": "index.js",
-  "type": "module",
+  "main": "api/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node api/index.js"
   },
-  "author": "",
-  "license": "MIT",
-  "description": "",
   "dependencies": {
-    "express": "^5.1.0",
-    "express-jwt": "^8.5.1"
-  },
-  "devDependencies": {
-    "@types/express": "^5.0.1"
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "dotenv": "^16.0.3"
   }
 }
+
+
