@@ -38,8 +38,12 @@ app.use(function (err, req, res, next) {
 });
 
 app.get('/clients', (req, res) => {
-  let clients = db.manyOrNone('SELECT * FROM clients')
-  res.send(clients)
+  let clients = db.manyOrNone('SELECT * FROM client')
+  clients.then(clients => {
+    res.send(clients)
+  }).catch(error => {
+    res.sendStatus(400)
+  })
 })
 
 app.get('/login', (req, res) => {
