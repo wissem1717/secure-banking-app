@@ -37,12 +37,21 @@ app.use(function (err, req, res, next) {
   }
 });
 
-app.get('/clients', (req, res) => {
+app.get('/client', (req, res) => {
   let clients = db.manyOrNone('SELECT * FROM client')
   clients.then(clients => {
     res.send(clients)
   }).catch(error => {
     res.sendStatus(400)
+  })
+})
+
+app.get('/client/:id', (req, res) => {
+  let client = db.one('SELECT * FROM client WHERE id = $1', req.params.id)
+  client.then(client => {
+    res.send(client)
+  }).catch(() => {
+    res.sendStatus(404)
   })
 })
 
