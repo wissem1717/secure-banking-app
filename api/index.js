@@ -63,19 +63,30 @@ app.put('/client/:id', (req, res) => {
     res.sendStatus(200);
     return;
   }
-  let query = 'UPDATE client SET' + [...values_in_body.keys().map(i => " " + values_in_body[i] + " = $" + (i+2))] + ' WHERE id = $1'
-  db.none(query, [req.params.id, ...values_in_body.map(k => req.body[k])])
-    .then(() => {
-      db.one('SELECT * FROM client WHERE id = $1', req.params.id)
-        .then(client => {
-        res.send(client)
-      }).catch(() => {
-        res.sendStatus(404)
-      })
+  let query = 'UPDATE client SET' + [...values_in_body.keys().map(i => " " + values_in_body[i] + " = $" + (i+2))] + ' WHERE id = $1 RETURNING *'
+  db.one(query, [req.params.id, ...values_in_body.map(k => req.body[k])])
+    .then(client => {
+      res.send(client)
     })
     .catch(() => {
       res.sendStatus(500)
     })
+})
+
+app.post("/client", (req, res) => {
+  let values_in_body = Object.keys(req.body)
+  if (!values_in_body.includes("first_name") || !values_in_body.includes("last_name") || !values_in_body.includes("date_of_birth")) {
+    res.sendStatus(400);
+  }
+  db.one(
+    "INSERT INTO client (first_name, last_name, date_of_birth) VALUES ($1, $2, $3) RETURNING *",
+    [req.body.first_name, req.body.last_name, req.body.date_of_birth]
+  ).then((client) => {
+    res.send(client)
+  }).catch((e) => {
+    console.error(e)
+    res.sendStatus(500)
+  })
 })
 
 app.get('/login', (req, res) => {
