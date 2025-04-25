@@ -20,6 +20,8 @@ if (!process.env.DB_PASS) {
 
 const db = dbc()(`postgres://${process.env.DB_USER}:${process.env.DB_PASS}@localhost:5432/bank_db`);
 
+app.use(express.json())
+
 // authenticate api calls on all routes except for login route.
 app.use(
   expressjwt({
@@ -38,8 +40,8 @@ app.use(function (err, req, res, next) {
 });
 
 app.get('/client', (req, res) => {
-  let clients = db.manyOrNone('SELECT * FROM client')
-  clients.then(clients => {
+  db.manyOrNone('SELECT * FROM client')
+    .then(clients => {
     res.send(clients)
   }).catch(error => {
     res.sendStatus(400)
@@ -47,21 +49,42 @@ app.get('/client', (req, res) => {
 })
 
 app.get('/client/:id', (req, res) => {
-  let client = db.one('SELECT * FROM client WHERE id = $1', req.params.id)
-  client.then(client => {
+  db.one('SELECT * FROM client WHERE id = $1', req.params.id)
+    .then(client => {
     res.send(client)
   }).catch(() => {
     res.sendStatus(404)
   })
 })
 
+app.put('/client/:id', (req, res) => {
+  let values_in_body = Object.keys(req.body).filter(k => ["first_name", "last_name", "date_of_birth"].includes(k))
+  if (values_in_body.length == 0) {
+    res.sendStatus(200);
+    return;
+  }
+  let query = 'UPDATE client SET' + [...values_in_body.keys().map(i => " " + values_in_body[i] + " = $" + (i+2))] + ' WHERE id = $1'
+  db.none(query, [req.params.id, ...values_in_body.map(k => req.body[k])])
+    .then(() => {
+      db.one('SELECT * FROM client WHERE id = $1', req.params.id)
+        .then(client => {
+        res.send(client)
+      }).catch(() => {
+        res.sendStatus(404)
+      })
+    })
+    .catch(() => {
+      res.sendStatus(500)
+    })
+})
+
 app.get('/login', (req, res) => {
   var token = jwt.sign({ foo: 'bar' }, JWT_SECRET_KEY, { algorithm: JWT_ALGORITHM });
-  res.status(200).send({
+  res.status(200).send1({
     "token": token,
   })
 })
 
-app.listen(port, () => {
+await app.listen(port, () => {
   console.log(`Api available on port ${port}`)
 })
