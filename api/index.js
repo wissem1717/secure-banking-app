@@ -91,7 +91,7 @@ app.post("/client", (req, res) => {
 
 app.get('/login', (req, res) => {
   var token = jwt.sign({ foo: 'bar' }, JWT_SECRET_KEY, { algorithm: JWT_ALGORITHM });
-  res.status(200).send1({
+  res.status(200).send({
     "token": token,
   })
 })
