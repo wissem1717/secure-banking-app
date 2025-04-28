@@ -71,6 +71,7 @@ app.set('views', path.join(__dirname, 'views')); // Où trouver nos fichiers .ej
 // ===============================================
 registerClientRoutes(app, db); // On utilise toutes les routes définies dans routes/clients.js
 
+<<<<<<< HEAD
 // ===============================================
 // Route spéciale pour récupérer un Token (utilisé avec Postman par exemple)
 // ===============================================
@@ -78,6 +79,37 @@ app.get('/login', (req, res) => {
   // Création d'un token basique (payload = { role: 'user' })
   const token = jwt.sign({ role: 'user' }, JWT_SECRET_KEY, { algorithm: JWT_ALGORITHM });
   res.status(200).send({ token }); // Envoi du token au client
+=======
+// authenticate api calls except login
+app.use(
+  expressjwt({
+    secret: JWT_SECRET_KEY,
+    algorithms: [JWT_ALGORITHM],
+  }).unless({ path: ["/login"] })
+);
+
+// handle invalid token error
+app.use(function (err, req, res, next) {
+  if (err.name === "UnauthorizedError") {
+    res.status(401).send({ "error": "invalid token" });
+  } else {
+    next(err);
+  }
+});
+
+// Enregistrer les routes clients
+registerClientRoutes(app, db);
+
+// Login route
+app.post('/login', async (req, res) => {
+  try {
+    const user = await db.one('SELECT * FROM bank_user WHERE username = $1 and password = $2 and deleted = FALSE', [req.body.username, req.body.password]);
+    const token = jwt.sign({ user_id: user.id, role: user.role }, JWT_SECRET_KEY, { algorithm: JWT_ALGORITHM });
+    res.status(200).send({ token });
+  } catch (error) {
+    res.sendStatus(401);
+  }
+>>>>>>> c527234f2446178e92389e80b4d772c4616c0ecf
 });
 
 // ===============================================
