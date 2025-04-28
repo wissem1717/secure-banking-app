@@ -24,7 +24,6 @@ export default function registerAccountRoutes(app, db) {
         res.send(account)
       }).catch(error => {
         res.sendStatus(404)
-        console.error(error)
       })
     })
 
