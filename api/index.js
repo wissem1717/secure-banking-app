@@ -54,13 +54,13 @@ app.use(function (err, req, res, next) {
 registerClientRoutes(app, db);
 
 // Login route
-app.get('/login', async (req, res) => {
+app.post('/login', async (req, res) => {
   try {
-    const client = await db.one('SELECT * FROM user WHERE id = $1', [req.query.id]);
-    const token = jwt.sign({ id: client.id }, JWT_SECRET_KEY, { algorithm: JWT_ALGORITHM });
+    const user = await db.one('SELECT * FROM bank_user WHERE username = $1 and password = $2 and deleted = FALSE', [req.body.username, req.body.password]);
+    const token = jwt.sign({ user_id: user.id, role: user.role }, JWT_SECRET_KEY, { algorithm: JWT_ALGORITHM });
     res.status(200).send({ token });
   } catch (error) {
-    res.sendStatus(404);
+    res.sendStatus(401);
   }
 });
 
