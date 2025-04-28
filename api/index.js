@@ -5,6 +5,7 @@ import dbc from 'pg-promise';
 import registerClientRoutes from './routes/clients.js';
 import registerAccountRoutes from './routes/accounts.js'
 import registerOperationRoutes from './routes/operations.js'
+import registerCardsRoutes from './routes/cards.js'
 import path from 'path';
 
 const app = express();
@@ -56,6 +57,7 @@ app.use(function (err, req, res, next) {
 registerClientRoutes(app, db);
 registerAccountRoutes(app, db);
 registerOperationRoutes(app, db);
+registerCardsRoutes(app, db);
 
 // Login route
 app.post('/login', async (req, res) => {
