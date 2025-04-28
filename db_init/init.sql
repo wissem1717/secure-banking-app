@@ -1,20 +1,21 @@
-CREATE TABLE IF NOT EXISTS employee (
-  id SERIAL PRIMARY KEY,
-  username VARCHAR(255),
-  password VARCHAR(255)
-);
+CREATE TYPE user_role AS ENUM ('employee', 'user');
 
-CREATE TABLE IF NOT EXISTS client (
+CREATE TABLE IF NOT EXISTS bank_user (
   id SERIAL PRIMARY KEY,
   first_name VARCHAR(255),
   last_name VARCHAR(20),
-  date_of_birth DATE
+  date_of_birth DATE,
+  role user_role,
+  username VARCHAR(255),
+  password VARCHAR(255),
+  deleted BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE IF NOT EXISTS account (
   id SERIAL PRIMARY KEY,
   balance INT,
-  client_id INT REFERENCES client(id)
+  client_id INT REFERENCES bank_user(id),
+  deleted BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE IF NOT EXISTS operation (
@@ -29,5 +30,38 @@ CREATE TABLE IF NOT EXISTS debit_card (
   last_name VARCHAR(20),
   card_number VARCHAR(20),
   code INT,
-  account_id INT NOT NULL REFERENCES account(id)
+  account_id INT NOT NULL REFERENCES account(id),
+  deleted BOOLEAN DEFAULT FALSE
+);
+
+INSERT INTO bank_user (
+  first_name,
+  last_name,
+  date_of_birth,
+  "role",
+  username,
+  "password"
+) VALUES (
+  'Jacques',
+  'HAUSER',
+  '2000-01-02',
+  'employee',
+  'emp',
+  'emp'
+);
+
+INSERT INTO bank_user (
+  first_name,
+  last_name,
+  date_of_birth,
+  "role",
+  username,
+  "password"
+) VALUES (
+  'Paul',
+  'PIPETTE',
+  '2000-01-02',
+  'user',
+  'user',
+  'user'
 );
