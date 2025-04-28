@@ -4,7 +4,7 @@ export default function registerClientRoutes(app, db) {
         res.sendStatus(401);
         return;
       }
-      db.manyOrNone('SELECT * FROM bank_user ORDER BY id')
+      db.manyOrNone('SELECT * FROM bank_user WHERE deleted = FALSE ORDER BY id')
         .then(clients => {
         res.send(clients)
       }).catch(error => {
@@ -19,7 +19,7 @@ export default function registerClientRoutes(app, db) {
         res.sendStatus(401);
         return;
       }
-      db.one('SELECT * FROM bank_user WHERE id = $1', req.params.id)
+      db.one('SELECT * FROM bank_user WHERE id = $1 AND deleted = FALSE', req.params.id)
         .then(client => {
         res.send(client)
       }).catch(error => {
@@ -44,7 +44,7 @@ export default function registerClientRoutes(app, db) {
       for (let index = 0; index < values_in_body.length; index++) {
         query += (index === 0 ? "" : ",") + " " + values_in_body[index] + " = $" + (index+2);
       }
-      query += ' WHERE id = $1 RETURNING *';
+      query += ' WHERE id = $1 AND deleted = FALSE RETURNING *';
       
       db.one(query, [req.params.id, ...values_in_body.map(k => req.body[k])])
         .then(client => {
@@ -82,7 +82,7 @@ export default function registerClientRoutes(app, db) {
         res.sendStatus(401);
         return;
       }
-      db.one('SELECT * FROM bank_user WHERE id = $1', client_id)
+      db.one('SELECT * FROM bank_user WHERE id = $1 AND deleted = FALSE', client_id)
         .then(() => {
         db.one('UPDATE bank_user SET deleted = TRUE WHERE id = $1 RETURNING *', client_id)
           .then(client => res.send(client))

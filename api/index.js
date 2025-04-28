@@ -3,6 +3,7 @@ import { expressjwt } from "express-jwt";
 import jwt from 'jsonwebtoken';
 import dbc from 'pg-promise';
 import registerClientRoutes from './routes/clients.js';
+import registerAccountRoutes from './routes/accounts.js'
 import path from 'path';
 
 const app = express();
@@ -50,8 +51,9 @@ app.use(function (err, req, res, next) {
   }
 });
 
-// Enregistrer les routes clients
+// Enregistrer les routes
 registerClientRoutes(app, db);
+registerAccountRoutes(app, db);
 
 // Login route
 app.post('/login', async (req, res) => {
