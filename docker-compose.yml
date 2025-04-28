@@ -1,11 +1,7 @@
+version: '3.8'
+
 services:
-#  caddy:
-
-#  web:
-
-#  api:
-
- db:
+  db:
     image: postgres
     restart: always
     ports:
@@ -13,13 +9,27 @@ services:
     environment:
       POSTGRES_DB: bank_db
       POSTGRES_USER: ${DB_USER}
-      PGUSER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_PASSWORD: ${DB_PASS}
     volumes:
       - ./data:/var/lib/postgresql/data
       - ./db_init:/docker-entrypoint-initdb.d
     healthcheck:
-      test: pg_isready -d $$POSTGRES_DB -U $$POSTGRES_USER
-      interval: 1s
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER}"]
+      interval: 5s
       timeout: 5s
-      retries: 10
+      retries: 5
+    env_file:
+      - .env
+
+  api:
+    build: ./api
+    ports:
+      - 3000:3000
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+    env_file:
+      - .env
