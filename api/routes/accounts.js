@@ -1,6 +1,7 @@
 export default function registerAccountRoutes(app, db) {
     app.get('/clients/:clientId/accounts', (req, res) => {
-      if (req.auth.role != 'employee') {
+      const client_id = req.params.clientId;
+      if (req.auth.user_id != client_id && req.auth.role != 'employee') {
         res.sendStatus(401);
         return;
       }
