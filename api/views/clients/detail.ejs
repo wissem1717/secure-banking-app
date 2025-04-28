@@ -1,0 +1,56 @@
+<!-- 
+Fichier : /views/clients/detail.ejs
+Page : Détail d'un client individuel
+-->
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Détail du Client</title>
+
+  <!-- Lien vers la feuille de styles -->
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+  <!-- En-tête de la page -->
+  <header>
+    <h1>📄 Détail du Client</h1>
+    <!-- Lien retour vers la liste -->
+    <a href="/clients" class="btn">⬅️ Retour à la liste</a>
+  </header>
+
+  <main>
+
+    <!-- Informations du client affichées proprement -->
+    <section class="client-info">
+      <p><strong>ID :</strong> <%= client.id %></p>
+
+      <p><strong>Prénom :</strong> <%= client.first_name %></p>
+
+      <p><strong>Nom :</strong> <%= client.last_name %></p>
+
+      <p><strong>Date de Naissance :</strong> 
+        <!-- Sécurité : Si date présente, afficher sinon afficher 'Non renseignée' -->
+        <%= client.date_of_birth ? client.date_of_birth.toISOString().split('T')[0] : 'Non renseignée' %>
+      </p>
+
+      <p><strong>Rôle :</strong> 
+        <!-- Sécurité : afficher le rôle ou sinon indiquer 'Non précisé' -->
+        <%= client.role || 'Non précisé' %>
+      </p>
+
+      <p><strong>Nom d'utilisateur :</strong> 
+        <!-- Sécurité : afficher le username ou sinon 'Non précisé' -->
+        <%= client.username || 'Non précisé' %>
+      </p>
+    </section>
+
+  </main>
+
+</body>
+</html>
+
+

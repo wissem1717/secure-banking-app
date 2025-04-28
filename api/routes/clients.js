@@ -1,3 +1,9 @@
+// =========================================
+// Fichier : /api/routes/clients.js
+// Rôle : Définir les routes pour l'API clients (backend) et la partie web (frontend EJS)
+// =========================================
+
+// Fonction principale pour enregistrer toutes les routes liées aux clients
 export default function registerClientRoutes(app, db) {
     app.get('/clients', (req, res) => {
       if (req.auth.role != 'employee') {

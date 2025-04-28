@@ -1,0 +1,163 @@
+/* =====================================================
+   FICHIER : public/css/style.css
+   OBJECTIF : Styliser proprement l'application bancaire
+   Auteur : Format humain (très clair, sans blabla inutile)
+====================================================== */
+
+/* === Style général de la page === */
+body {
+  font-family: Arial, sans-serif; /* Police simple, lisible */
+  margin: 0; /* Pas de marge autour de la page */
+  padding: 20px; /* Un peu d'air autour du contenu */
+  background-color: #f5f8fa; /* Fond légèrement gris-bleu clair */
+}
+
+/* === En-tête (header) === */
+header {
+  display: flex; /* Mettre en ligne titre + bouton */
+  justify-content: space-between; /* Un à gauche, l'autre à droite */
+  align-items: center; /* Aligné verticalement */
+  background-color: #0077cc; /* Bleu soutenu */
+  color: white;
+  padding: 15px 20px;
+  border-radius: 8px; /* Coins arrondis pour l'entête */
+  margin-bottom: 30px;
+}
+
+/* === Titre h1 dans l'en-tête === */
+header h1 {
+  font-size: 24px;
+  margin: 0;
+}
+
+/* === Bouton général === */
+.btn {
+  display: inline-block;
+  background-color: #0066b2; /* Bleu plus foncé que le header */
+  color: white;
+  text-decoration: none; /* Enlever soulignement lien */
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: background-color 0.3s ease; /* Animation douce */
+  font-size: 14px;
+  border: none; /* Pas de bordure */
+  cursor: pointer; /* Main au survol */
+}
+
+/* === Effet au survol d'un bouton === */
+.btn:hover {
+  background-color: #004f8a; /* Encore plus foncé au hover */
+}
+
+/* === Formulaire général === */
+form {
+  background: white;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1); /* Ombre légère */
+  max-width: 600px;
+  margin: 0 auto; /* Centrer */
+}
+
+/* === Regroupement de champs === */
+.form-group {
+  margin-bottom: 20px; /* Espacement entre les champs */
+}
+
+/* === Label pour chaque input === */
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+/* === Champs texte et date === */
+input[type="text"],
+input[type="date"] {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* === Tableau === */
+table {
+  width: 100%;
+  border-collapse: collapse; /* Fusionner les bordures */
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* === Entêtes du tableau === */
+thead {
+  background-color: #0077cc;
+  color: white;
+}
+
+th, td {
+  padding: 15px 12px;
+  text-align: left;
+}
+
+/* === Bordures entre lignes du tableau === */
+tbody tr {
+  border-bottom: 1px solid #eee;
+}
+
+/* === Effet au survol des lignes === */
+tbody tr:hover {
+  background-color: #f1f5f9;
+}
+
+/* === Correction spécifique pour boutons/formulaires dans les cellules === */
+td form {
+  display: inline-block; /* Plus de problème de saut de ligne */
+  margin: 0;
+  padding: 0;
+}
+
+td .btn,
+td button {
+  height: 32px;
+  line-height: 32px;
+  font-size: 14px;
+  padding: 0 10px;
+  margin-right: 5px;
+  vertical-align: middle; /* Aligné avec le texte */
+}
+
+td button {
+  background-color: #cc0000; /* Rouge pour "Supprimer" */
+}
+
+td button:hover {
+  background-color: #990000; /* Rouge foncé au survol */
+}
+
+/* === Pour éviter que tout déborde dans les cellules === */
+td {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* === Petite marge autour du tableau pour respirer === */
+main {
+  padding: 0 20px;
+}
+
+/* === Section spécifique pour les détails du client === */
+.client-info {
+  background: white;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.client-info p {
+  margin-bottom: 12px;
+  font-size: 16px;
+}

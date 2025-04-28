@@ -1,11 +1,7 @@
+version: '3.8'
+
 services:
-#  caddy:
-
-#  web:
-
-#  api:
-
- db:
+  db:
     image: postgres
     restart: always
     ports:
@@ -14,7 +10,7 @@ services:
       POSTGRES_DB: bank_db
       POSTGRES_USER: ${DB_USER}
       PGUSER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_PASSWORD: ${DB_PASS}
     volumes:
       - ./data:/var/lib/postgresql/data
       - ./db_init:/docker-entrypoint-initdb.d
@@ -23,3 +19,14 @@ services:
       interval: 1s
       timeout: 5s
       retries: 10
+
+  api:
+    build: ./api
+    ports:
+      - 3000:3000
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
