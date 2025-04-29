@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import { expressjwt } from "express-jwt";
 import jwt from 'jsonwebtoken';
 import dbc from 'pg-promise';
@@ -28,6 +29,7 @@ const db = dbc()(`postgres://${process.env.DB_USER}:${process.env.DB_PASS}@${pro
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors({ origin: true, credentials: true }));
 
 // Configuration pour EJS
 app.set('view engine', 'ejs');
@@ -71,6 +73,7 @@ app.post('/login', async (req, res) => {
     res.status(200).send({
       token,
       id: user.id,
+      role: user.role
     });
   } catch (error) {
     res.sendStatus(500);
