@@ -24,7 +24,7 @@ if (!process.env.DB_PASS) {
   process.exit(1);
 }
 
-const db = dbc()(`postgres://${process.env.DB_USER}:${process.env.DB_PASS}@localhost:5432/bank_db`);
+const db = dbc()(`postgres://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -62,11 +62,16 @@ registerCardsRoutes(app, db);
 // Login route
 app.post('/login', async (req, res) => {
   try {
-    const user = await db.one('SELECT * FROM bank_user WHERE username = $1 and password = $2 and deleted = FALSE', [req.body.username, req.body.password]);
+    const user = await db.oneOrNone('SELECT * FROM bank_user WHERE username = $1 and password = $2 and deleted = FALSE', [req.body.username, req.body.password]);
+    if (!user) {
+      res.sendStatus(401);
+      return;
+    }
     const token = jwt.sign({ user_id: user.id, role: user.role }, JWT_SECRET_KEY, { algorithm: JWT_ALGORITHM });
     res.status(200).send({ token });
   } catch (error) {
-    res.sendStatus(401);
+    res.sendStatus(500);
+    console.log(error);
   }
 });
 
