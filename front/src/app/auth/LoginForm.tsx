@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -19,33 +18,24 @@ export function LoginForm({
       <Card>
         <CardHeader>
           <CardTitle>Connectez vous</CardTitle>
-          <CardDescription>
-            Saisissez votre adresse mail ci-dessous pour se connecter à votre compte.
-          </CardDescription>
         </CardHeader>
         <CardContent>
           <form>
             <div className="flex flex-col gap-6">
               <div className="grid gap-3">
-                <Label htmlFor="email">Adresse mail</Label>
+                <Label htmlFor="username">Nom d'utilisateur</Label>
                 <Input
-                  id="email"
-                  type="email"
-                  placeholder="name@example.com"
+                  id="username"
+                  type="username"
+                  placeholder="chocolatine96"
                   required
                 />
               </div>
               <div className="grid gap-3">
                 <div className="flex items-center">
                   <Label htmlFor="password">Mot de passe</Label>
-                  <a
-                    href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    Mot de passe oublié ?
-                  </a>
                 </div>
-                <Input id="password" type="password" required />
+                <Input id="password" type="password" placeholder="SuperMotDePasseUwU" required />
               </div>
               <div className="flex flex-col gap-3">
                 <Button type="submit" className="w-full">
@@ -54,10 +44,7 @@ export function LoginForm({
               </div>
             </div>
             <div className="mt-4 text-center text-sm">
-              Vous n&apos;avez pas de compte ?{" "}
-              <a href="#" className="underline underline-offset-4">
-                Créer un compte
-              </a>
+              Vous n&apos;avez pas de compte ? Contactez-nous.
             </div>
           </form>
         </CardContent>
