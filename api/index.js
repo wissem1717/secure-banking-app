@@ -68,7 +68,10 @@ app.post('/login', async (req, res) => {
       return;
     }
     const token = jwt.sign({ user_id: user.id, role: user.role }, JWT_SECRET_KEY, { algorithm: JWT_ALGORITHM });
-    res.status(200).send({ token });
+    res.status(200).send({
+      token,
+      id: user.id,
+    });
   } catch (error) {
     res.sendStatus(500);
     console.log(error);
