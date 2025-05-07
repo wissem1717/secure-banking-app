@@ -29,10 +29,7 @@ export function LoginForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle>Connectez vous</CardTitle>
-          <CardContent>
-            <p>{JSON.stringify(user)}</p>
-          </CardContent>
+          <CardTitle>Connection</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={event => {
