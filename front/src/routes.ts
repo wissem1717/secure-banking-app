@@ -1,8 +1,8 @@
 import { createBrowserRouter } from "react-router";
 import { LoginForm } from "@/app/auth/LoginForm";
 import { AuthLayout } from "@/app/layout/AuthLayout";
-import { MainLayout } from "./app/layout/MainLayout";
-import { ClientDashboard } from "./app/client/ClientDashboard";
+import { ClientDashboard } from "./app/dashboard/ClientDashboard";
+import { ProtectedRoute } from "./app/auth/ProtectedRoute";
 
 export const router = createBrowserRouter([
     {
@@ -10,13 +10,13 @@ export const router = createBrowserRouter([
       children: [
         {
           path: "dashboard",
-          Component: MainLayout,
+          Component: ProtectedRoute,
           children: [
             { index: true, Component: ClientDashboard },
           ]
         },
         {
-          path: "auth",
+          path: "login",
           Component: AuthLayout,
           children: [
             { index: true, Component: LoginForm },
