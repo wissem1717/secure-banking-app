@@ -10,12 +10,14 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useAuth } from "@/hooks/useAuth"
 import axios from "axios"
+import { useNavigate } from "react-router"
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
   const { user, login } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -37,7 +39,7 @@ export function LoginForm({
               password,
             }).then(response => {
                 login(response.data);
-                console.log(response.data);
+                navigate("/dashboard");
             }).catch(console.error)
           }}>
             <div className="flex flex-col gap-6">
