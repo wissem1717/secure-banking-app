@@ -1,37 +1,24 @@
 import { RouterProvider } from "react-router";
 import './index.css'
 import { router } from './routes.ts'
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import { userContext } from "./userContext.ts";
 import axios from "axios";
 
 // Add providers to app
 const App: React.FC = () => {
+    const userData: {id: number, token: string, role: string} = JSON.parse(localStorage.user);
+
     const [user, setUser] = useState<{
         id: number | null,
         token: string | null,
         role: string | null
     }>({
-        id: null,
-        token: null,
-        role: null
+        id: userData ? userData.id : null,
+        token: userData ? userData.token : null,
+        role: userData ? userData.role : null
     });
-
-    useEffect(() => {
-        //const user = {id:1, token:"adadada"};
-        //sessionStorage.setItem('user', JSON.stringify(user));
-
-        if (sessionStorage.user) {
-            const userData: {id: number, token: string, role: string} = JSON.parse(sessionStorage.user);
-
-            setUser({
-                id: userData.id,
-                token: userData.token,
-                role: userData.role,
-            });
-        }
-    }, []);
-
+    
     async function handleLogin(username: string, password: string) {
         console.log("login", username, password);
         return await axios.post("http://localhost:3000/login", {
@@ -44,7 +31,7 @@ const App: React.FC = () => {
                 role: response.data.role
             }
             setUser(data);
-            sessionStorage.setItem("user", JSON.stringify(data))
+            localStorage.setItem("user", JSON.stringify(data))
         }).catch(console.log)
     }
 
@@ -54,7 +41,7 @@ const App: React.FC = () => {
             token: null,
             role: null
         });
-        sessionStorage.removeItem("user");
+        localStorage.removeItem("user");
     }
 
     const value: {
