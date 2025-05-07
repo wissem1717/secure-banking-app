@@ -4,6 +4,7 @@ import { AuthLayout } from "@/app/layout/AuthLayout";
 import { ClientDashboardLayout } from "./app/dashboard/ClientDashboardLayout";
 import { ProtectedRoute } from "./app/auth/ProtectedRoute";
 import { HomePage } from "./app/home/HomePage";
+import { ClientAccountsView } from "./app/dashboard/ClientAccountsView";
 
 export const router = createBrowserRouter([
     {
@@ -15,9 +16,12 @@ export const router = createBrowserRouter([
         },
         {
           path: "dashboard",
-          Component: ProtectedRoute,
+          Component: ClientDashboardLayout,
           children: [
-            { index: true, Component: ClientDashboardLayout },
+            {
+              index: true,
+              Component: ClientAccountsView,
+            },
           ]
         },
         {

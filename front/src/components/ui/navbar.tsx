@@ -10,7 +10,7 @@ const linkStyleTrigger = function ({ isActive, isPending }: { isActive: boolean,
 
 function Navbar({ children, ...props }: React.PropsWithChildren<NavbarProps>) {
   return (
-    <div className="fixed top-0 left-0 w-full z-50 bg-white border-b backdrop-blur-lg bg-opacity-80">
+    <div className="w-full z-50 bg-white border-b backdrop-blur-lg bg-opacity-80">
     <div className="mx-auto max-w-7xl px-6 sm:px-6 lg:px-8 ">
         <div className="relative flex h-16 justify-between">
             <div className="flex justify-start">
