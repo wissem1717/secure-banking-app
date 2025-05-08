@@ -33,29 +33,33 @@ export function BackendClientsView() {
 
     return (
         <table className="w-full text-center border-2 border-black">
-            <tr>
-                <th colSpan={6}>Clients</th>
-            </tr>
-            <tr className="border-y-2 border-black">
-                <th className="border-x-2 border-black">ID</th>
-                <th className="border-x-2 border-black">Prénom</th>
-                <th className="border-x-2 border-black">Nom</th>
-                <th className="border-x-2 border-black">Role</th>
-                <th className="border-x-2 border-black">Nom d'utilisateur</th>
-                <th className="border-x-2 border-black">Actions</th>
-            </tr>
-            {
-                clients.map((client) =>
-                    <ClientElement client={client} />
-                )
-            }
-            <tr className="border-y-2 border-black">
-                <td colSpan={6} className="text-end">
-                    <button className="bg-gray-500 hover:bg-gray-400 text-white font-medium py-0.5 px-2 rounded m-1" onClick={() => navigate("/backend/client/new")}>
-                        Créer un client
-                    </button>
-                </td>
-            </tr>
+            <thead>
+                <tr>
+                    <th colSpan={6}>Clients</th>
+                </tr>
+                <tr className="border-y-2 border-black">
+                    <th className="border-x-2 border-black">ID</th>
+                    <th className="border-x-2 border-black">Prénom</th>
+                    <th className="border-x-2 border-black">Nom</th>
+                    <th className="border-x-2 border-black">Role</th>
+                    <th className="border-x-2 border-black">Nom d'utilisateur</th>
+                    <th className="border-x-2 border-black">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {
+                    clients.map((client) =>
+                        <ClientElement client={client} />
+                    )
+                }
+                <tr className="border-y-2 border-black">
+                    <td colSpan={6} className="text-end">
+                        <button className="bg-gray-500 hover:bg-gray-400 text-white font-medium py-0.5 px-2 rounded m-1" onClick={() => navigate("/backend/client/new")}>
+                            Créer un client
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
         </table>
     )
 }
