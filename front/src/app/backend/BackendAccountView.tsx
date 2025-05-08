@@ -47,6 +47,12 @@ export function BackendAccountView() {
         deleted: false
     });
     const [accountTransactions, setAccountTransactions] = useState<Array<TransactionData>>([]);
+    const [transactionData, setTransactionData] = useState<TransactionData>({
+        account_id: accountId ? parseInt(accountId): -1,
+        description: "",
+        id: -1,
+        value: 0
+    })
 
     function deleteAccount() {
         if (!user) return;
@@ -59,6 +65,16 @@ export function BackendAccountView() {
         .catch(console.error)
     }
 
+    function createTransaction() {
+        if (!user) return;
+        axios.post(`http://localhost:3000/clients/${clientId}/accounts/${accountId}/operations`, transactionData, {
+            headers: { Authorization: `Bearer ${user.token}` }
+        }).then((response) => {
+            setAccountTransactions([...accountTransactions, response.data])
+            setAccountData({ ...accountData, balance: (accountData.balance + response.data.value) })
+        })
+    }
+
     useEffect(() => {
         if (!user) return;
         axios.get(`http://localhost:3000/clients/${clientId}`, {
@@ -69,7 +85,7 @@ export function BackendAccountView() {
             axios.get(`http://localhost:3000/clients/${clientId}/accounts/${accountId}`, {
                 headers: { Authorization: `Bearer ${user.token}` }
             }).then((response) => setAccountData(response.data))
-            axios.get(`http://localhost:3000/clients/${clientId}/accounts/${accountId}/transactions`, {
+            axios.get(`http://localhost:3000/clients/${clientId}/accounts/${accountId}/operations`, {
                 headers: { Authorization: `Bearer ${user.token}` }
             }).then((response) => setAccountTransactions(response.data))
         })
@@ -161,9 +177,21 @@ export function BackendAccountView() {
                             (clientId !== undefined && accountId !== undefined) ? <TransactionElement clientId={clientId} accountId={accountId} transaction={transaction} /> : undefined
                         )
                     }
-                    <tr className="px-1.5 border-2 border-gray-400">
-                        <td colSpan={6} className="text-end">
-                            <button className="bg-gray-500 hover:bg-gray-400 text-white font-medium py-0.5 px-2 rounded m-1" onClick={() => navigate(`/backend/client/${clientData.id}/account/new`)}>
+                    <tr>
+                        <td colSpan={4} className="p-2">
+                            <label>Montant:</label><br/>
+                            <input type="number" value={transactionData.value} onChange={(e) => {setTransactionData({ ...transactionData, value: parseInt(e.target.value)})}} className="border-2 border-gray-400 rounded p-1 w-fit mx-auto"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colSpan={4} className="p-2">
+                            <label>Description:</label><br/>
+                            <input type="text" value={transactionData.description} onChange={(e) => {setTransactionData({ ...transactionData, description: e.target.value})}} className="border-2 border-gray-400 rounded p-1 w-fit ml-1 mx-auto"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colSpan={4} className="text-end">
+                            <button className="bg-gray-500 hover:bg-gray-400 text-white font-medium py-0.5 px-2 rounded m-1" onClick={() => createTransaction()}>
                                 Nouvelle transaction
                             </button>
                         </td>
@@ -178,12 +206,23 @@ export function BackendAccountView() {
 
 function TransactionElement({ clientId, accountId, transaction }: { clientId: string, accountId: string, transaction: TransactionData }) {
     const navigate = useNavigate();
+    const { user } = useAuth();
+
+    function deleteTransaction(transactionId: string) {
+        if (!user) return;
+        axios.delete(`http://localhost:3000/clients/${clientId}/accounts/${accountId}/operations/${transactionId}`, {
+            headers: { Authorization: `Bearer ${user.token}` }
+        }).then(() => {
+            navigate(0)
+        })
+    }
+
     return <tr key={transaction.id.toString()}>
         <td className="px-2 text-center border-2 border-gray-400">{transaction.id}</td>
         <td className="px-2 text-right border-2 border-gray-400">{transaction.value}</td>
         <td className="px-2 text-right border-2 border-gray-400">{transaction.description}</td>
         <td className="px-2 text-center border-2 border-gray-400">
-            <button className="border-2 border-gray-500 hover:border-gray-300 hover:bg-gray-400 text-white font-medium py-0.5 px-1 rounded m-1" onClick={() => navigate(`/backend/client/${clientId}/account/${accountId}/transaction/${transaction.id}`)}>
+            <button className="border-2 border-gray-500 hover:border-gray-300 hover:bg-gray-400 text-white font-medium py-0.5 px-1 rounded m-1" onClick={() => deleteTransaction(transaction.id)}>
                 ❌
             </button>
         </td>

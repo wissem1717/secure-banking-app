@@ -47,7 +47,7 @@ export default function registerOperationRoutes(app, db) {
       }
       db.one('SELECT * FROM account WHERE id = $1 AND client_id = $2 AND deleted = FALSE', [req.params.accountId, client_id])
         .then(account => {
-        db.one("INSERT INTO operation (value, description, account_id) VALUES ($1, $2, $3) RETURNING *", [req.body.value, req.body.desc, req.params.accountId])
+        db.one("INSERT INTO operation (value, description, account_id) VALUES ($1, $2, $3) RETURNING *", [req.body.value, req.body.description, req.params.accountId])
         .then((operation) => {
           db.none("UPDATE account SET balance = $1 WHERE id = $2", [account.balance + req.body.value, req.params.accountId])
           res.send(operation)

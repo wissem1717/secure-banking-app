@@ -22,7 +22,7 @@ export default function ClientOperationForm() {
     try {
       await axios.post(
         `http://localhost:3000/clients/${user.id}/accounts/${accountId}/operations`,
-        { value, desc: description },
+        { value, description },
         {
           headers: { Authorization: `Bearer ${user.token}` },
         }
