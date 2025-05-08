@@ -199,14 +199,25 @@ export function BackendClientView() {
 }
 
 function ClientElement({ account }: { account: AccountData }) {
-    const navigate = useNavigate();
-    return <tr key={account.id.toString()}>
-        <td className="px-2 text-center border-2 border-gray-400">{account.id}</td>
-        <td className="px-2 text-right border-2 border-gray-400">{account.balance}</td>
-        <td className="px-2 text-center border-2 border-gray-400">
-            <button className="border-2 border-gray-500 hover:border-gray-300 hover:bg-gray-400 text-white font-medium py-0.5 px-1 rounded m-1" onClick={() => navigate(`/backend/client/${account.client_id}/account/${account.id}`)}>
-                🔍
-            </button>
-        </td>
+  const navigate = useNavigate();
+  return (
+    <tr key={account.id.toString()}>
+      <td className="px-2 text-center border-2 border-gray-400">{account.id}</td>
+      <td className="px-2 text-right border-2 border-gray-400">{account.balance}</td>
+      <td className="px-2 text-center border-2 border-gray-400 space-x-1">
+        <button
+          className="border-2 border-gray-500 hover:border-gray-300 hover:bg-gray-400 text-white font-medium py-0.5 px-1 rounded"
+          onClick={() => navigate(`/backend/client/${account.client_id}/account/${account.id}`)}
+        >
+          🔍
+        </button>
+        <button
+          className="border-2 border-green-500 hover:border-green-300 hover:bg-green-100 text-green-700 font-medium py-0.5 px-1 rounded"
+          onClick={() => navigate(`/backend/accounts/${account.id}/cards`)}
+        >
+          💳
+        </button>
+      </td>
     </tr>
+  );
 }

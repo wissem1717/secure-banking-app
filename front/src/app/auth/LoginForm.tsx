@@ -1,17 +1,17 @@
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { useAuth } from "@/hooks/useAuth"
-import axios from "axios"
-import { useNavigate } from "react-router"
-import { useEffect } from "react"
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useAuth } from "@/hooks/useAuth";
+import axios from "axios";
+import { useNavigate } from "react-router";
+import { useEffect, useState } from "react";
 
 export function LoginForm({
   className,
@@ -19,11 +19,38 @@ export function LoginForm({
 }: React.ComponentProps<"div">) {
   const { user, login } = useAuth();
   const navigate = useNavigate();
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (user)
-      navigate(user.role == "employee" ? "/backend/clients" : "/dashboard");
-  })
+      navigate(user.role === "employee" ? "/backend/clients" : "/dashboard");
+  }, [user, navigate]);
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    const formElement = event.target as HTMLFormElement;
+    const username = (formElement.elements[0] as HTMLInputElement).value;
+    const password = (formElement.elements[1] as HTMLInputElement).value;
+
+    axios
+      .post("http://localhost:3000/login", {
+        username,
+        password,
+      })
+      .then((response) => {
+        login(response.data);
+        setError(""); // réinitialise l’erreur
+        navigate(
+          response.data.role === "employee"
+            ? "/backend/clients"
+            : "/dashboard"
+        );
+      })
+      .catch((err) => {
+        setError("Nom d'utilisateur ou mot de passe incorrect.");
+        console.error(err);
+      });
+  };
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -32,34 +59,20 @@ export function LoginForm({
           <CardTitle>Connection</CardTitle>
         </CardHeader>
         <CardContent>
-          <form onSubmit={event => {
-            event.preventDefault();
-            const formElement = event.target as HTMLFormElement;
-            const username = (formElement.elements[0] as HTMLInputElement).value;
-            const password = (formElement.elements[1] as HTMLInputElement).value;
-            axios.post("http://localhost:3000/login", {
-              username,
-              password,
-            }).then(response => {
-                login(response.data);
-                navigate(response.data.role == "employee" ? "/backend/clients" : "/dashboard");
-            }).catch(console.error)
-          }}>
+          <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-3">
                 <Label htmlFor="username">Nom d'utilisateur</Label>
                 <Input
                   id="username"
-                  type="username"
+                  type="text"
                   name="username"
                   placeholder="chocolatine96"
                   required
                 />
               </div>
               <div className="grid gap-3">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Mot de passe</Label>
-                </div>
+                <Label htmlFor="password">Mot de passe</Label>
                 <Input
                   id="password"
                   type="password"
@@ -68,6 +81,13 @@ export function LoginForm({
                   required
                 />
               </div>
+
+              {error && (
+                <div className="text-red-600 text-sm text-center">
+                  {error}
+                </div>
+              )}
+
               <div className="flex flex-col gap-3">
                 <Button type="submit" className="w-full">
                   Se connecter
@@ -81,5 +101,5 @@ export function LoginForm({
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

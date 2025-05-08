@@ -1,3 +1,4 @@
+import BackendCardsView from "@/app/backend/BackendCardsView";
 import ClientTransferView from "./app/dashboard/ClientTransferView";
 import ClientCardsView from "./app/dashboard/ClientCardsView";
 import ClientOperationForm from "./app/dashboard/ClientOperationForm";
@@ -14,6 +15,7 @@ import { BackendClientsView } from "./app/backend/BackendClientsView";
 import { BackendClientCreationView } from "./app/backend/BackendClientCreationView";
 import { BackendClientView } from "./app/backend/BackendClientView";
 import { BackendAccountView } from "./app/backend/BackendAccountView";
+
 
 export const router = createBrowserRouter([
     {
@@ -74,6 +76,11 @@ export const router = createBrowserRouter([
               path: "client/:clientId/account/:accountId",
               Component: BackendAccountView,
             },
+            {
+              path: "account/:accountId/cards",
+              Component: BackendCardsView,
+            },           
+            
           ]
         },
         {
