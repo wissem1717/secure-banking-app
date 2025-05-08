@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import { useAuth } from "@/hooks/useAuth";
 
 interface Operation {
@@ -14,6 +14,7 @@ interface Operation {
 export default function ClientOperationsView() {
   const { user } = useAuth();
   const { accountId } = useParams();
+  const navigate = useNavigate();
   const [operations, setOperations] = useState<Operation[]>([]);
 
   useEffect(() => {
@@ -34,15 +35,35 @@ export default function ClientOperationsView() {
   }, [accountId, user]);
 
   return (
-    <div className="p-4">
-      <h2 className="text-xl font-bold mb-4">Liste des opérations</h2>
+    <div className="p-6 bg-white rounded-xl shadow-md max-w-3xl mx-auto mt-8">
+      <h2 className="text-2xl font-semibold mb-6 text-gray-800">
+        Historique des opérations
+      </h2>
+
+      <div className="flex justify-end mb-4">
+        <button
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-500 transition"
+          onClick={() => navigate(`/dashboard/accounts/${accountId}/operations/new`)}
+        >
+          ➕ Nouvelle opération
+        </button>
+      </div>
+
       {operations.length === 0 ? (
-        <p>Aucune opération pour ce compte.</p>
+        <p className="text-gray-500">Aucune opération pour ce compte.</p>
       ) : (
-        <ul className="space-y-2">
+        <ul className="space-y-3">
           {operations.map((op) => (
-            <li key={op.id} className="border rounded p-2 shadow-sm">
-              <strong>{op.value} €</strong> — {op.description}
+            <li
+              key={op.id}
+              className="border border-gray-200 rounded-lg p-4 shadow-sm bg-gray-50 hover:bg-gray-100 transition"
+            >
+              <div className="flex justify-between">
+                <span className="font-bold text-lg text-blue-700">
+                  {op.value} €
+                </span>
+                <span className="text-gray-600 italic">{op.description}</span>
+              </div>
             </li>
           ))}
         </ul>
