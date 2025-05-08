@@ -1,9 +1,13 @@
 import { useAuth } from "@/hooks/useAuth";
-import { Navigate, Outlet } from "react-router";
+import { Navigate } from "react-router";
 
-export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+interface ProtectedRouteProps {
+    role: string
+}
+
+export const ProtectedRoute = ({ children, ...props }: React.PropsWithChildren<ProtectedRouteProps>) => {
     const { user } = useAuth();
-    if (!user) {
+    if (!user || user.role != props.role) {
         // user is not authenticated
         return <Navigate to="/login" />;
     }

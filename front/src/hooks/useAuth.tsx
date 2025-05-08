@@ -1,14 +1,21 @@
 import { createContext, useContext, useMemo } from "react";
 import { useLocalStorage } from "./useLocalStorage";
-const AuthContext = createContext<{ user: any; login: (data: object) => Promise<void>; logout: () => void; }>(
+
+interface userData {
+  token: string,
+  id: string,
+  role: string
+}
+
+const AuthContext = createContext<{ user: userData | null; login: (data: null | userData) => void; logout: () => void; }>(
     { user: null, login: async () => {}, logout: () => {}}
 );
 
 export const AuthProvider = ({ children }: { children: any }) => {
-  const [user, setUser] = useLocalStorage("user", null);
+  const [user, setUser]: [null | userData, React.Dispatch<null | userData>] = useLocalStorage("user", null);
 
   // call this function when you want to authenticate the user
-  const login = async (data: object) => {
+  const login = (data: null | userData) => {
     setUser(data);
   };
 

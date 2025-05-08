@@ -1,10 +1,11 @@
 import { createBrowserRouter } from "react-router";
 import { LoginForm } from "@/app/auth/LoginForm";
-import { AuthLayout } from "@/app/layout/AuthLayout";
+import { AuthLayout } from "@/app/auth/AuthLayout";
 import { ClientDashboardLayout } from "./app/dashboard/ClientDashboardLayout";
-import { ProtectedRoute } from "./app/auth/ProtectedRoute";
 import { HomePage } from "./app/home/HomePage";
 import { ClientAccountsView } from "./app/dashboard/ClientAccountsView";
+import { BackendLayout } from "./app/backend/BackendLayout";
+import { BackendClientsView } from "./app/backend/BackendClientsView";
 
 export const router = createBrowserRouter([
     {
@@ -21,6 +22,16 @@ export const router = createBrowserRouter([
             {
               index: true,
               Component: ClientAccountsView,
+            },
+          ]
+        },
+        {
+          path: "backend",
+          Component: BackendLayout,
+          children: [
+            {
+              path: "clients",
+              Component: BackendClientsView,
             },
           ]
         },

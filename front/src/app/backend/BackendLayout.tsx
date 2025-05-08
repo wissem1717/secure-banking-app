@@ -5,19 +5,22 @@ import { useAuth } from "@/hooks/useAuth";
 import { NavLink, Outlet } from "react-router"
 import { ProtectedRoute } from "../auth/ProtectedRoute";
 
-export function ClientDashboardLayout() {
+export function BackendLayout() {
   const { logout } = useAuth();
   
   return (
-    <ProtectedRoute role="user">
+    <ProtectedRoute role="employee">
       <div className="flex flex-col h-full">
-        <Navbar title="Espace Client">
+        <Navbar title="Espace Interne">
           <NavbarLeft>
-            <NavLink to="/dashboard" className={linkStyleTrigger}>
+            <NavLink to="/backend" className={linkStyleTrigger}>
               Mes Comptes
             </NavLink>
           </NavbarLeft>
           <NavbarRight>
+            <NavLink to="/" className={linkStyleTrigger}>
+              Accueil
+            </NavLink>
             <NavbarRightButton onClick={(e) => {e.preventDefault(); logout()}}>
               Se déconnecter
             </NavbarRightButton>
