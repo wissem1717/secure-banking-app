@@ -1,7 +1,7 @@
 import { useAuth } from "@/hooks/useAuth";
 import axios from "axios";
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 
 interface ClientData {
     date_of_birth: string
@@ -14,6 +14,7 @@ interface ClientData {
 }
 
 export function BackendClientsView() {
+    const navigate = useNavigate();
     const { user } = useAuth();
     const [clients, setClients] = useState([]);
 
@@ -32,11 +33,9 @@ export function BackendClientsView() {
     }, [])
 
     return (
-        <>
-            
-            <table className="w-full text-center border-2 border-black">
+        <table className="w-full text-center border-2 border-black">
             <tr>
-                <th colSpan={5}>Clients</th>
+                <th colSpan={6}>Clients</th>
             </tr>
             <tr className="border-y-2 border-black">
                 <th className="border-x-2 border-black">ID</th>
@@ -51,8 +50,14 @@ export function BackendClientsView() {
                     <ClientElement client={client} />
                 )
             }
-            </table>
-        </>
+            <tr className="border-y-2 border-black">
+                <td colSpan={6} className="text-end">
+                    <button className="bg-gray-500 hover:bg-gray-400 text-white font-medium py-0.5 px-2 rounded m-1" onClick={() => navigate("/backend/client/new")}>
+                        Créer un client
+                    </button>
+                </td>
+            </tr>
+        </table>
     )
     // TODO add client creation
 }
@@ -66,7 +71,7 @@ function ClientElement({ client }: { client: ClientData }) {
         <td className="border-x-2 border-black">{client.role}</td>
         <td className="border-x-2 border-black">{client.username}</td>
         <td className="border-x-2 border-black">
-            <button onClick={() => navigate(`/backend/client/${client.id}`)}>
+            <button className="border-2 border-gray-500 hover:border-gray-300 hover:bg-gray-400 text-white font-medium py-0.5 px-1 rounded m-1" onClick={() => navigate(`/backend/client/${client.id}`)}>
                 🔍
             </button>
         </td>

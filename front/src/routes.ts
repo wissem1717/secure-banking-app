@@ -6,6 +6,7 @@ import { HomePage } from "./app/home/HomePage";
 import { ClientAccountsView } from "./app/dashboard/ClientAccountsView";
 import { BackendLayout } from "./app/backend/BackendLayout";
 import { BackendClientsView } from "./app/backend/BackendClientsView";
+import { BackendClientCreationView } from "./app/backend/BackendClientCreationView";
 
 export const router = createBrowserRouter([
     {
@@ -32,6 +33,10 @@ export const router = createBrowserRouter([
             {
               path: "clients",
               Component: BackendClientsView,
+            },
+            {
+              path: "client/new",
+              Component: BackendClientCreationView,
             },
             {
               path: "client/:id",

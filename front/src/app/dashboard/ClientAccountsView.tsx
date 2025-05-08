@@ -21,8 +21,8 @@ export function ClientAccountsView() {
     }, [])
 
     return (
-        <>
+        <div className="text-center w-full">
             <h1>Comptes</h1>
-        </>
+        </div>
     )
 }
