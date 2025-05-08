@@ -56,15 +56,20 @@ export default function registerClientRoutes(app, db) {
         })
     })
 
-    app.post("/clients", (req, res) => {
+    app.post("/clients", async (req, res) => {
       if (req.auth.role != 'employee') {
         res.sendStatus(401);
         return;
       }
       let values_in_body = Object.keys(req.body)
-      if (!values_in_body.includes("first_name") || !values_in_body.includes("last_name") || !values_in_body.includes("date_of_birth")) {
+      if (!values_in_body.includes("first_name") || !values_in_body.includes("last_name") || !values_in_body.includes("date_of_birth") || !values_in_body.includes("role") || !values_in_body.includes("username") || !values_in_body.includes("password")) {
         res.sendStatus(400);
       }
+      let same_username = await db.oneOrNone("SELECT * FROM bank_user WHERE username = $1", [req.body.username])
+      if (same_username) {
+        res.sendStatus(400);
+        return;
+      } 
       db.one(
         "INSERT INTO bank_user (first_name, last_name, date_of_birth, role, username, password) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
         [req.body.first_name, req.body.last_name, req.body.date_of_birth, req.body.role, req.body.username, req.body.password]
