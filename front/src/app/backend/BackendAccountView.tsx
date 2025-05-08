@@ -48,24 +48,13 @@ export function BackendAccountView() {
     });
     const [accountTransactions, setAccountTransactions] = useState<Array<TransactionData>>([]);
 
-    function editUser() {
-        if (!user) return;
-        axios.put(`http://localhost:3000/clients/${clientId}`, clientData, {
-            headers: { Authorization: `Bearer ${user.token}` }
-        })
-        .then((response) => {
-            navigate(`/backend/client/${response.data.id}`)
-        })
-        .catch(console.error)
-    }
-
     function deleteAccount() {
         if (!user) return;
         axios.delete(`http://localhost:3000/clients/${clientId}/accounts/${accountId}`, {
             headers: { Authorization: `Bearer ${user.token}` }
         })
         .then(() => {
-            navigate(`/backend/clients/${clientId}`)
+            navigate(`/backend/client/${clientId}`)
         })
         .catch(console.error)
     }

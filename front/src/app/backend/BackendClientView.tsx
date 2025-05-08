@@ -33,7 +33,7 @@ export function BackendClientView() {
         role: "",
         username: ""
     });
-    const [clientAccounts, setClientAccounts] = useState([]);
+    const [clientAccounts, setClientAccounts] = useState<Array<AccountData>>([]);
 
     function editUser() {
         if (!user) return;
@@ -55,6 +55,13 @@ export function BackendClientView() {
             navigate(`/backend/clients`)
         })
         .catch(console.error)
+    }
+
+    function createAccount() {
+        if (!user) return;
+        axios.post(`http://localhost:3000/clients/${id}/accounts`, {}, {
+            headers: { Authorization: `Bearer ${user.token}` }
+        }).then(response => setClientAccounts([...clientAccounts, response.data]))
     }
 
     useEffect(() => {
@@ -178,7 +185,7 @@ export function BackendClientView() {
                     }
                     <tr className="px-1.5 border-2 border-gray-400">
                         <td colSpan={6} className="text-end">
-                            <button className="bg-gray-500 hover:bg-gray-400 text-white font-medium py-0.5 px-2 rounded m-1" onClick={() => navigate(`/backend/client/${clientData.id}/account/new`)}>
+                            <button className="bg-gray-500 hover:bg-gray-400 text-white font-medium py-0.5 px-2 rounded m-1" onClick={() => createAccount()}>
                                 Créer un compte
                             </button>
                         </td>

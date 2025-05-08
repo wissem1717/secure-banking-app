@@ -51,10 +51,6 @@ export const router = createBrowserRouter([
               Component: BackendClientView,
             },
             {
-              path: "client/:clientId/account/new",
-              Component: BackendAccountCreationView,
-            },
-            {
               path: "client/:clientId/account/:accountId",
               Component: BackendAccountView,
             },
