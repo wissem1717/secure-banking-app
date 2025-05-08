@@ -33,6 +33,10 @@ export const router = createBrowserRouter([
               path: "clients",
               Component: BackendClientsView,
             },
+            {
+              path: "client/:id",
+              Component: BackendClientsView,
+            },
           ]
         },
         {

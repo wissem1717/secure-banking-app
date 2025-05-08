@@ -26,7 +26,7 @@ export function BackendLayout() {
             </NavbarRightButton>
           </NavbarRight>
         </Navbar>
-        <div className="mx-auto max-w-6xl grow flex-1 bg-red-500">
+        <div className="mx-auto w-6xl grow flex-1">
           <Outlet/>
         </div>
       </div>
