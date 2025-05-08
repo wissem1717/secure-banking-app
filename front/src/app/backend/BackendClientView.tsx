@@ -33,7 +33,7 @@ export function BackendClientView() {
         role: "",
         username: ""
     });
-    const [clientAccounts, setclientAccounts] = useState([]);
+    const [clientAccounts, setClientAccounts] = useState([]);
 
     function editUser() {
         if (!user) return;
@@ -51,7 +51,7 @@ export function BackendClientView() {
         axios.delete(`http://localhost:3000/clients/${id}`, {
             headers: { Authorization: `Bearer ${user.token}` }
         })
-        .then((response) => {
+        .then(() => {
             navigate(`/backend/clients`)
         })
         .catch(console.error)
@@ -66,7 +66,7 @@ export function BackendClientView() {
             setClientData({ ...response.data, date_of_birth: response.data.date_of_birth.split("T")[0] })
             axios.get(`http://localhost:3000/clients/${id}/accounts`, {
                 headers: { Authorization: `Bearer ${user.token}` }
-            }).then((response) => setclientAccounts(response.data))
+            }).then((response) => setClientAccounts(response.data))
         })
         .catch((error) => {
             console.error(error);
