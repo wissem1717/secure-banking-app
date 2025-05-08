@@ -13,8 +13,8 @@ export function BackendLayout() {
       <div className="flex flex-col h-full">
         <Navbar title="Espace Interne">
           <NavbarLeft>
-            <NavLink to="/backend" className={linkStyleTrigger}>
-              Mes Comptes
+            <NavLink to="/backend/clients" className={linkStyleTrigger}>
+              Liste des clients
             </NavLink>
           </NavbarLeft>
           <NavbarRight>

@@ -9,6 +9,8 @@ import { BackendLayout } from "./app/backend/BackendLayout";
 import { BackendClientsView } from "./app/backend/BackendClientsView";
 import { BackendClientCreationView } from "./app/backend/BackendClientCreationView";
 import { BackendClientView } from "./app/backend/BackendClientView";
+import { BackendAccountView } from "./app/backend/BackendAccountView";
+import { BackendAccountCreationView } from "./app/backend/BackendAccountCreationView";
 
 export const router = createBrowserRouter([
     {
@@ -47,6 +49,14 @@ export const router = createBrowserRouter([
             {
               path: "client/:id",
               Component: BackendClientView,
+            },
+            {
+              path: "client/:clientId/account/new",
+              Component: BackendAccountCreationView,
+            },
+            {
+              path: "client/:clientId/account/:accountId",
+              Component: BackendAccountView,
             },
           ]
         },
