@@ -26,13 +26,11 @@ export function BackendClientCreationView() {
 
     function createUser() {
         if (!user) return;
-        console.log(clientData)
         axios.post("http://localhost:3000/clients", clientData, {
             headers: { Authorization: `Bearer ${user.token}` }
         })
         .then((response) => {
-            // TODO change to navigate to page of new user
-            navigate("/backend/clients")
+            navigate(`/backend/client/${response.data.id}`)
         })
         .catch(console.error)
     }
