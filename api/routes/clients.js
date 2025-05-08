@@ -34,7 +34,7 @@ export default function registerClientRoutes(app, db) {
         res.sendStatus(401);
         return;
       }
-      let values_in_body = Object.keys(req.body).filter(k => ["first_name", "last_name", "date_of_birth", "username", "password"].includes(k))
+      let values_in_body = Object.keys(req.body).filter(k => ["first_name", "last_name", "date_of_birth", "password"].includes(k))
       if (values_in_body.length == 0) {
         res.sendStatus(200);
         return;
