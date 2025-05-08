@@ -10,7 +10,6 @@ import { BackendClientsView } from "./app/backend/BackendClientsView";
 import { BackendClientCreationView } from "./app/backend/BackendClientCreationView";
 import { BackendClientView } from "./app/backend/BackendClientView";
 import { BackendAccountView } from "./app/backend/BackendAccountView";
-import { BackendAccountCreationView } from "./app/backend/BackendAccountCreationView";
 
 export const router = createBrowserRouter([
     {
