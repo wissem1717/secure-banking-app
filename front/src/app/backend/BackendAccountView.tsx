@@ -208,7 +208,7 @@ function TransactionElement({ clientId, accountId, transaction }: { clientId: st
     const navigate = useNavigate();
     const { user } = useAuth();
 
-    function deleteTransaction(transactionId: string) {
+    function deleteTransaction(transactionId: number) {
         if (!user) return;
         axios.delete(`http://localhost:3000/clients/${clientId}/accounts/${accountId}/operations/${transactionId}`, {
             headers: { Authorization: `Bearer ${user.token}` }
