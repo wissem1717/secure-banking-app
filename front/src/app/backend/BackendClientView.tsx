@@ -46,6 +46,17 @@ export function BackendClientView() {
         .catch(console.error)
     }
 
+    function deleteUser() {
+        if (!user) return;
+        axios.delete(`http://localhost:3000/clients/${id}`, {
+            headers: { Authorization: `Bearer ${user.token}` }
+        })
+        .then((response) => {
+            navigate(`/backend/clients`)
+        })
+        .catch(console.error)
+    }
+
     useEffect(() => {
         if (!user) return;
         axios.get(`http://localhost:3000/clients/${id}`, {
@@ -139,7 +150,7 @@ export function BackendClientView() {
                             <button type="submit" className="bg-gray-500 hover:bg-gray-400 text-white font-medium py-0.5 px-2 rounded m-1 mt-1.5">
                                 Modifier
                             </button>
-                            <button type="button" className="bg-red-500 hover:bg-red-400 text-white font-medium py-0.5 px-2 rounded m-1 mt-1.5" onClick={() => navigate("/backend/client/new")}>
+                            <button type="button" className="bg-red-500 hover:bg-red-400 text-white font-medium py-0.5 px-2 rounded m-1 mt-1.5" onClick={() => deleteUser()}>
                                 Supprimer
                             </button>
                         </td>
