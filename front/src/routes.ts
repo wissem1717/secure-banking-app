@@ -1,3 +1,4 @@
+import ClientOperationsView from "./app/dashboard/ClientOperationsView";
 import { createBrowserRouter } from "react-router";
 import { LoginForm } from "@/app/auth/LoginForm";
 import { AuthLayout } from "@/app/auth/AuthLayout";
@@ -23,6 +24,10 @@ export const router = createBrowserRouter([
             {
               index: true,
               Component: ClientAccountsView,
+            },
+            {
+              path: "accounts/:accountId/operations",
+              Component: ClientOperationsView,
             },
           ]
         },
