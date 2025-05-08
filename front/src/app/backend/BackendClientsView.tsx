@@ -1,7 +1,7 @@
 import { useAuth } from "@/hooks/useAuth";
 import axios from "axios";
 import { useEffect, useState } from "react"
-import { Navigate, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 interface ClientData {
     date_of_birth: string
@@ -24,11 +24,10 @@ export function BackendClientsView() {
             headers: { Authorization: `Bearer ${user.token}` }
         })
         .then((response) => {
-            console.log(response.data);
             setClients(response.data)
         })
         .catch((error) => {
-            console.log(error);
+            console.error(error);
         });
     }, [])
 
@@ -59,7 +58,6 @@ export function BackendClientsView() {
             </tr>
         </table>
     )
-    // TODO add client creation
 }
 
 function ClientElement({ client }: { client: ClientData }) {
