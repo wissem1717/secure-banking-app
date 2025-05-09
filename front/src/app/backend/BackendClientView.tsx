@@ -213,7 +213,7 @@ function ClientElement({ account }: { account: AccountData }) {
         </button>
         <button
           className="border-2 border-green-500 hover:border-green-300 hover:bg-green-100 text-green-700 font-medium py-0.5 px-1 rounded"
-          onClick={() => navigate(`/backend/accounts/${account.id}/cards`)}
+          onClick={() => navigate(`/backend/client/${account.client_id}/account/${account.id}/cards`)}
         >
           💳
         </button>

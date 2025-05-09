@@ -73,11 +73,11 @@ export const router = createBrowserRouter([
               Component: BackendClientView,
             },
             {
-              path: "client/:clientId/account/:accountId",
+              path: "client/:clientId/accounts/:accountId",
               Component: BackendAccountView,
             },
             {
-              path: "account/:accountId/cards",
+              path: "client/:clientId/account/:accountId/cards",
               Component: BackendCardsView,
             },           
             
