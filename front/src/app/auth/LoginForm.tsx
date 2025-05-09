@@ -1,10 +1,4 @@
 import { cn } from "@/lib/utils";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { useAuth } from "@/hooks/useAuth";
 import axios from "axios";
 import { useNavigate } from "react-router";
@@ -51,11 +45,11 @@ export function LoginForm({
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
-        <CardHeader>
-          <CardTitle>Connection</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <div className="flex flex-col gap-6 rounded-xl border border-gray-300 py-6 shadow-sm">
+        <div className="grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6">
+          <div className="leading-none font-semibold">Connection</div>
+        </div>
+        <div className="px-6">
           <form onSubmit={handleSubmit}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-3">
@@ -97,8 +91,8 @@ export function LoginForm({
               Vous n&apos;avez pas de compte ? Contactez-nous !
             </div>
           </form>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }
