@@ -21,7 +21,7 @@ export default function ClientCardsView() {
     if (!user || !accountId) return;
 
     axios
-      .get(`http://localhost:3000/clients/${user.id}/account/${accountId}/cards`, {
+      .get(`http://localhost:3000/clients/${user.id}/accounts/${accountId}/cards`, {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
@@ -39,7 +39,7 @@ export default function ClientCardsView() {
 
     axios
       .post(
-        `http://localhost:3000/clients/${user.id}/account/${accountId}/cards`,
+        `http://localhost:3000/clients/${user.id}/accounts/${accountId}/cards`,
         {},
         {
           headers: {
