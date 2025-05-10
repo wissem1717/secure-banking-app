@@ -2,6 +2,10 @@
 
 > Fait par Teiva TESSON et Wissem CHEDLY
 
+## Configurer le projet
+
+Dupliquer le fichier ```.env.example``` et le renommer ```.env``` puis mettre les valeurs souhaitées aux variables.
+
 ## Lancer le projet
 
 1. Installer Docker (ou Docker Desktop qui contient Docker) et le lancer.
