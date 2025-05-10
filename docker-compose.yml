@@ -1,9 +1,11 @@
 services:
-#  caddy:
+  front:
+    build: ./front
+    restart: unless-stopped
+    ports:
+      - 4173:4173
 
-#  web:
-
- api:
+  api:
     build: ./api
     restart: unless-stopped
     ports:
@@ -15,7 +17,7 @@ services:
       DB_PASS: ${DB_PASSWORD}
       DB_NAME: bank_db
 
- db:
+  db:
     image: postgres
     restart: unless-stopped
     container_name: db

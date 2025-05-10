@@ -1,7 +1,7 @@
 import { useAuth } from "@/hooks/useAuth";
 import axios from "axios";
 import { useEffect, useState } from "react"
-import { Navigate, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 interface ClientData {
     date_of_birth: string
