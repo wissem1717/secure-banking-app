@@ -1,8 +1,8 @@
 // src/app/backend/BackendCardsView.tsx
-import axios from "axios";
-import { useParams } from "react-router";
-import { useEffect, useState } from "react";
-import { useAuth } from "@/hooks/useAuth";
+import axios from "axios"; // pour faire des requêtes HTTP
+import { useParams } from "react-router"; // pour lire les paramètres d'URL (clientId, accountId)
+import { useEffect, useState } from "react"; // hooks React
+import { useAuth } from "@/hooks/useAuth"; // hook personnalisé pour accéder à l'utilisateur connecté
 
 interface Card {
   id: number;
@@ -13,21 +13,21 @@ interface Card {
 }
 
 export default function BackendCardsView() {
-  const { user } = useAuth();
-  const { clientId, accountId } = useParams();
-  const [cards, setCards] = useState<Card[]>([]);
-  const [message, setMessage] = useState("");
+  const { user } = useAuth(); // on récupère l'utilisateur connecté (et son token)
+  const { clientId, accountId } = useParams(); // récupération des paramètres d'URL
+  const [cards, setCards] = useState<Card[]>([]); // liste des cartes associées au compte
+  const [message, setMessage] = useState(""); // message de succès ou d'erreur
 
   useEffect(() => {
-    if (!user || !accountId || !clientId) return;
+    if (!user || !accountId || !clientId) return; // sécurité : on attend d’avoir tout avant d’appeler
 
     axios
       .get(`http://localhost:3000/clients/${clientId}/accounts/${accountId}/cards`, {
-        headers: { Authorization: `Bearer ${user.token}` },
+        headers: { Authorization: `Bearer ${user.token}` }, // envoie du token pour s’authentifier
       })
-      .then((res) => setCards(res.data))
+      .then((res) => setCards(res.data)) // on stocke les cartes reçues
       .catch((err) => console.error("Erreur chargement cartes", err));
-  }, [clientId, accountId, user]);
+  }, [clientId, accountId, user]); // relance si clientId/accountId/user changent
 
   const createCard = () => {
     if (!user || !accountId || !clientId) return;
@@ -35,11 +35,11 @@ export default function BackendCardsView() {
     axios
       .post(
         `http://localhost:3000/clients/${clientId}/accounts/${accountId}/cards`,
-        {},
+        {}, // corps vide, les infos sont générées automatiquement
         { headers: { Authorization: `Bearer ${user.token}` } }
       )
       .then((res) => {
-        setCards((prev) => [...prev, res.data]);
+        setCards((prev) => [...prev, res.data]); // on ajoute la carte dans la liste actuelle
         setMessage("Carte créée !");
       })
       .catch((err) => {

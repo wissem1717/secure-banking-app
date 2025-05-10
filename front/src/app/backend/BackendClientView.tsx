@@ -1,9 +1,9 @@
-import { useAuth } from "@/hooks/useAuth";
-import axios from "axios";
+import { useAuth } from "@/hooks/useAuth"; // Récupère l'utilisateur connecté
+import axios from "axios"; // Librairie pour requêtes HTTP
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router";
 
-interface ClientData {
+interface ClientData { // Interface des données client
     date_of_birth: string
     deleted: false
     first_name: string
@@ -13,7 +13,7 @@ interface ClientData {
     username: string
 }
 
-interface AccountData {
+interface AccountData { // Interface des comptes
     "id": number,
     "balance": number,
     "client_id": number,
@@ -23,8 +23,8 @@ interface AccountData {
 export function BackendClientView() {
     const navigate = useNavigate();
     const { user } = useAuth();
-    const { id } = useParams();
-    const [clientData, setClientData] = useState<ClientData>({
+    const { id } = useParams(); // Récupère l'ID client depuis l'URL
+    const [clientData, setClientData] = useState<ClientData>({ // Données du client
         date_of_birth: "",
         deleted: false,
         first_name: "",
@@ -33,9 +33,9 @@ export function BackendClientView() {
         role: "",
         username: ""
     });
-    const [clientAccounts, setClientAccounts] = useState<Array<AccountData>>([]);
+    const [clientAccounts, setClientAccounts] = useState<Array<AccountData>>([]); // Liste des comptes du client
 
-    function editUser() {
+    function editUser() { // Modifier les infos du client
         if (!user) return;
         axios.put(`http://localhost:3000/clients/${id}`, clientData, {
             headers: { Authorization: `Bearer ${user.token}` }
@@ -46,7 +46,7 @@ export function BackendClientView() {
         .catch(console.error)
     }
 
-    function deleteUser() {
+    function deleteUser() { // Supprimer le client
         if (!user) return;
         axios.delete(`http://localhost:3000/clients/${id}`, {
             headers: { Authorization: `Bearer ${user.token}` }
@@ -57,14 +57,14 @@ export function BackendClientView() {
         .catch(console.error)
     }
 
-    function createAccount() {
+    function createAccount() { // Créer un nouveau compte pour le client
         if (!user) return;
         axios.post(`http://localhost:3000/clients/${id}/accounts`, {}, {
             headers: { Authorization: `Bearer ${user.token}` }
         }).then(response => setClientAccounts([...clientAccounts, response.data]))
     }
 
-    useEffect(() => {
+    useEffect(() => { // Chargement des données client et de ses comptes
         if (!user) return;
         axios.get(`http://localhost:3000/clients/${id}`, {
             headers: { Authorization: `Bearer ${user.token}` }

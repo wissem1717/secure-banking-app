@@ -1,9 +1,9 @@
-import { useAuth } from "@/hooks/useAuth";
-import axios from "axios";
+import { useAuth } from "@/hooks/useAuth"; // Hook d'authentification personnalisé
+import axios from "axios"; // Pour les requêtes HTTP
 import { useState } from "react"
 import { useNavigate } from "react-router";
 
-interface newClientData {
+interface newClientData { // Structure des données du nouveau client
     date_of_birth: string
     first_name: string
     last_name: string
@@ -13,9 +13,9 @@ interface newClientData {
 }
 
 export function BackendClientCreationView() {
-    const navigate = useNavigate();
-    const { user } = useAuth();
-    const [clientData, setClientData] = useState<newClientData>({
+    const navigate = useNavigate(); // Permet la redirection
+    const { user } = useAuth(); // Récupère l'utilisateur connecté
+    const [clientData, setClientData] = useState<newClientData>({ // État local du formulaire
         first_name: "",
         last_name: "",
         date_of_birth: "",
@@ -24,13 +24,13 @@ export function BackendClientCreationView() {
         password: "",
     });
 
-    function createUser() {
+    function createUser() { // Fonction appelée à la soumission
         if (!user) return;
-        axios.post("http://localhost:3000/clients", clientData, {
-            headers: { Authorization: `Bearer ${user.token}` }
+        axios.post("http://localhost:3000/clients", clientData, { // Envoie des données client
+            headers: { Authorization: `Bearer ${user.token}` } // Ajout du token JWT
         })
         .then((response) => {
-            navigate(`/backend/client/${response.data.id}`)
+            navigate(`/backend/client/${response.data.id}`) // Redirection vers la fiche du client créé
         })
         .catch(console.error)
     }

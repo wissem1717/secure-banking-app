@@ -1,9 +1,9 @@
-import { useAuth } from "@/hooks/useAuth";
-import axios from "axios";
-import { useEffect, useState } from "react"
-import { useNavigate } from "react-router";
+import { useAuth } from "@/hooks/useAuth"; // hook personnalisé pour l’authentification
+import axios from "axios"; // pour faire des requêtes HTTP
+import { useEffect, useState } from "react" // hooks React
+import { useNavigate } from "react-router"; // pour rediriger vers d'autres pages
 
-interface ClientData {
+interface ClientData { // interface représentant un client
     date_of_birth: string
     deleted: false
     first_name: string
@@ -14,30 +14,31 @@ interface ClientData {
 }
 
 export function BackendClientsView() {
-    const navigate = useNavigate();
-    const { user } = useAuth();
-    const [clients, setClients] = useState([]);
+    const navigate = useNavigate(); // permet de rediriger
+    const { user } = useAuth(); // récupère l’utilisateur connecté
+    const [clients, setClients] = useState([]); // liste des clients
 
     useEffect(() => {
-        if (!user) return;
+        if (!user) return; // sécurité : ne rien faire sans utilisateur
+
         axios.get(`http://localhost:3000/clients/`, {
-            headers: { Authorization: `Bearer ${user.token}` }
+            headers: { Authorization: `Bearer ${user.token}` } // ajoute le token dans l’en-tête
         })
         .then((response) => {
-            console.log(response.data);
-            setClients(response.data)
+            console.log(response.data); // debug : affiche les données dans la console
+            setClients(response.data) // met à jour le state avec les clients reçus
         })
         .catch((error) => {
-            console.log(error);
+            console.log(error); // affiche les erreurs éventuelles
         });
     }, [])
 
     return (
-        <table className="w-full text-center border-2 border-black">
+        <table className="w-full text-center border-2 border-black"> {/* tableau stylisé */}
             <tr>
                 <th colSpan={6}>Clients</th>
             </tr>
-            <tr className="border-y-2 border-black">
+            <tr className="border-y-2 border-black"> {/* en-têtes de colonnes */}
                 <th className="border-x-2 border-black">ID</th>
                 <th className="border-x-2 border-black">Prénom</th>
                 <th className="border-x-2 border-black">Nom</th>
@@ -47,7 +48,7 @@ export function BackendClientsView() {
             </tr>
             {
                 clients.map((client) =>
-                    <ClientElement client={client} />
+                    <ClientElement client={client} /> // affiche chaque client via un composant
                 )
             }
             <tr className="border-y-2 border-black">
@@ -62,8 +63,8 @@ export function BackendClientsView() {
     // TODO add client creation
 }
 
-function ClientElement({ client }: { client: ClientData }) {
-    const navigate = useNavigate();
+function ClientElement({ client }: { client: ClientData }) { // composant ligne client
+    const navigate = useNavigate(); // permet la navigation dynamique
     return <tr>
         <td className="border-x-2 border-black">{client.id}</td>
         <td className="border-x-2 border-black">{client.first_name}</td>

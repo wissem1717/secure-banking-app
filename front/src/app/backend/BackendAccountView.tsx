@@ -1,7 +1,7 @@
-import { useAuth } from "@/hooks/useAuth";
-import axios from "axios";
-import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useAuth } from "@/hooks/useAuth"; // hook pour récupérer l'utilisateur authentifié
+import axios from "axios"; // librairie HTTP pour communiquer avec l’API
+import { useState, useEffect } from "react"; // hooks React
+import { useNavigate, useParams } from "react-router"; // pour redirection et accès aux paramètres d'URL
 
 interface ClientData {
     date_of_birth: string
@@ -30,7 +30,7 @@ interface TransactionData {
 export function BackendAccountView() {
     const navigate = useNavigate();
     const { user } = useAuth();
-    const { clientId, accountId } = useParams();
+    const { clientId, accountId } = useParams(); // récupère les IDs depuis l’URL
     const [clientData, setClientData] = useState<ClientData>({
         date_of_birth: "",
         deleted: false,
@@ -48,7 +48,7 @@ export function BackendAccountView() {
     });
     const [accountTransactions, setAccountTransactions] = useState<Array<TransactionData>>([]);
     const [transactionData, setTransactionData] = useState<TransactionData>({
-        account_id: accountId ? parseInt(accountId): -1,
+        account_id: accountId ? parseInt(accountId): -1, // association avec le bon compte
         description: "",
         id: -1,
         value: 0
@@ -60,7 +60,7 @@ export function BackendAccountView() {
             headers: { Authorization: `Bearer ${user.token}` }
         })
         .then(() => {
-            navigate(`/backend/client/${clientId}`)
+            navigate(`/backend/client/${clientId}`) // retour à la fiche client
         })
         .catch(console.error)
     }
@@ -70,8 +70,8 @@ export function BackendAccountView() {
         axios.post(`http://localhost:3000/clients/${clientId}/accounts/${accountId}/operations`, transactionData, {
             headers: { Authorization: `Bearer ${user.token}` }
         }).then((response) => {
-            setAccountTransactions([...accountTransactions, response.data])
-            setAccountData({ ...accountData, balance: (accountData.balance + response.data.value) })
+            setAccountTransactions([...accountTransactions, response.data]) // ajoute la nouvelle transaction à la liste
+            setAccountData({ ...accountData, balance: (accountData.balance + response.data.value) }) // met à jour le solde
         })
     }
 
@@ -81,7 +81,7 @@ export function BackendAccountView() {
             headers: { Authorization: `Bearer ${user.token}` }
         })
         .then((response) => {
-            setClientData({ ...response.data, date_of_birth: response.data.date_of_birth.split("T")[0] })
+            setClientData({ ...response.data, date_of_birth: response.data.date_of_birth.split("T")[0] }) // format date
             axios.get(`http://localhost:3000/clients/${clientId}/accounts/${accountId}`, {
                 headers: { Authorization: `Bearer ${user.token}` }
             }).then((response) => setAccountData(response.data))
