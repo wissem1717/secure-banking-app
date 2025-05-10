@@ -24,3 +24,14 @@ docker compose up -d --build
 ```bash
 docker compose down
 ```
+
+## Tester le projet
+
+Vous pouvez tester le projet avec les identifiants de test :
+
+- Employé
+  - username: emp
+  - password: emp
+- Utilisateur
+  - username: user
+  - password: user
