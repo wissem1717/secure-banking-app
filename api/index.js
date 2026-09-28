@@ -12,7 +12,6 @@ import path from 'path'; // Utilitaire pour manipuler les chemins
 const app = express(); // Création de l'application Express
 const port = 3000; // Port du serveur
 
-const JWT_SECRET_KEY = Buffer.from("REDACTED_ROTATE_THIS_SECRET", "base64"); // Clé secrète encodée en base64
 const JWT_ALGORITHM = "HS256"; // Algorithme utilisé pour signer les tokens
 
 if (!process.env.DB_USER) { // Vérifie si la variable d’environnement DB_USER est définie
@@ -24,6 +23,13 @@ if (!process.env.DB_PASS) { // Vérifie si DB_PASS est défini
   console.log("Specify database password using DB_PASS env variable.");
   process.exit(1);
 }
+
+if (!process.env.JWT_SECRET_KEY) { // Vérifie si JWT_SECRET_KEY est défini
+  console.log("Specify JWT secret using JWT_SECRET_KEY env variable.");
+  process.exit(1);
+}
+
+const JWT_SECRET_KEY = Buffer.from(process.env.JWT_SECRET_KEY, "base64"); // Clé secrète chargée depuis l'environnement
 
 // Connexion à la base PostgreSQL via pg-promise
 const db = dbc()(`postgres://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`);
